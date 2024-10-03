@@ -1,0 +1,36 @@
+*{
+    font-family: 'Times New Roman', Times, serif;
+}
+nav {
+    width: 100%;
+    background-color: rgb(120, 33, 233);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+}
+nav h1 {
+    margin-left: 50px;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    font-size: 32px;
+}
+nav button {
+    font-size: 24px;
+    background-color: rgb(120, 33, 233);
+    color: white;
+    border: solid white 1px;
+    border-width: 0px 0px 0px 1px;
+    text-shadow: 2px 2px 2px black;
+}
+nav button:hover{
+    padding-top: 5px;
+    text-shadow: none;
+    background-color: rgb(120, 60, 233);
+    box-shadow:inset 0px 0px 0px 3px white;
+    transition: box-shadow 0.1s;
+}
+main{
+    height: 800px;
+}
+footer{
+    text-align: center;
+}
