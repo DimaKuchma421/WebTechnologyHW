@@ -5,7 +5,7 @@ nav {
     width: 100%;
     background-color: rgb(120, 33, 233);
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
 }
 nav h1 {
     margin-left: 50px;
@@ -26,11 +26,37 @@ nav button:hover{
     text-shadow: none;
     background-color: rgb(120, 60, 233);
     box-shadow:inset 0px 0px 0px 3px white;
-    transition: box-shadow 0.1s;
+    transition: box-shadow 0.2s;
 }
 main{
     height: 800px;
 }
 footer{
     text-align: center;
+}
+
+.aftorization {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px white solid;
+}
+
+.aftorization button {
+    background-color: rgb(120, 60, 233);
+    border: 2px solid white;
+    border-radius: 30px;
+    height: 40px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aftorization button:hover {
+    background-color: white;
+    color: black;
+    text-shadow: none;
+    transition: 0.2s;
+    padding: 0%;
 }
