@@ -1,0 +1,15 @@
+<%-include('partials/header.ejs')%>
+<main>
+    <form class="container" action="/signIn" method="post">
+        <div class="label">
+            <label for="username">Username</label>
+            <input type="text" name="username">
+            <label for="password">Password</label>
+            <input type="text" name="password">
+        </div>
+        <button type="signIn">Вхід</button>
+      </form>
+</main>
+<%-include('partials/footer.ejs')%>
+</body>
+</html>

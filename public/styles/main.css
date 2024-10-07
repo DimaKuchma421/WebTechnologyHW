@@ -1,0 +1,109 @@
+*{
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+}
+input{
+    color: black;
+    font-size: 24px;
+}
+nav {
+    width: 100%;
+    background-color: rgb(120, 33, 233);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+}
+nav h1 {
+    margin-left: 50px;
+    text-shadow: 2px 2px 2px black;
+    font-size: 32px;
+}
+nav button {
+    font-size: 24px;
+    background-color: rgb(120, 33, 233);
+    border: solid white 1px;
+    border-width: 0px 0px 0px 1px;
+    text-shadow: 2px 2px 2px black;
+}
+nav button:hover{
+    padding-top: 5px;
+    text-shadow: none;
+    background-color: rgb(120, 60, 233);
+    box-shadow:inset 0px 0px 0px 3px white;
+    transition: box-shadow 0.2s;
+}
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px;
+    height: 800px;
+    border: solid rgb(120, 33, 233) 5px;
+    background-color: rgb(100, 30, 200);
+}
+footer{
+    text-align: center;
+}
+
+.aftorization {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px white solid;
+}
+
+.aftorization button {
+    background-color: rgb(120, 60, 233);
+    border: 2px solid white;
+    border-radius: 30px;
+    height: 40px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.aftorization button:hover {
+    background-color: white;
+    color: black;
+    text-shadow: none;
+    transition: 0.2s;
+    padding: 0%;
+}
+.container{
+    width: 300px;
+    height: 300px;
+    font-size: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+label{
+    margin-bottom: 10px;
+    font-size: 32px;
+}
+.label {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.container input {
+    height: 30px;
+}
+.container button {
+    background-color: rgb(120, 60, 233);
+    border: 2px solid white;
+    font-size: 32px;
+    border-radius: 30px;
+    height: 60px;
+    width: 200px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.container button:hover {
+    background-color: white;
+    color: black;
+    text-shadow: none;
+    transition: 0.2s;
+    padding: 0%;
+}
