@@ -1,6 +1,22 @@
 <%-include('partials/header.ejs')%>
 <main>
-    <h1>ACCOUNT</h1>
+    <% if(username){ %>
+        <form class="container" action="/acc" method="post">
+            <div class="label">
+            <label for="username">Username</label>
+            <input type="text" value="<%= username %>">
+            <label for="username">Email</label>
+            <input type="text" value="<%= email %>">
+            <label for="username">FirstName</label>
+            <input type="text" value="<%= firstName %>">
+            <label for="username">LastName</label>
+            <input type="text" value="<%= lastName %>">
+            <label for="username">Password</label>
+            <input type="text" value="<%= password %>">
+            </div>
+        <button type="acc">Вийти з аккаунту</button>
+    </form>
+    <% }%>   
 </main>
 <%-include('partials/footer.ejs')%>
 </body>
