@@ -5,7 +5,7 @@ import pg from "pg";
 const app = express();
 const port = 3000;
 
-let signIn = false;
+let signedIn = false;
 let userData;
 
 const db = new pg.Client({
@@ -30,14 +30,12 @@ async function signInProtocol(username, password) {
       result.rows[0].username == username &&
       result.rows[0].password == password
     ) {
-      signIn = true;
       userData = result.rows[0];
-    } else {
-      console.log("ERORR");
+      signedIn = true;
     }
   } catch (err) {
     console.log(err);
-    res.render("index.ejs");
+    signedIn = false;
   }
 }
 
@@ -54,12 +52,13 @@ app.get("/friends", (req, res) => {
 });
 
 app.get("/account", (req, res) => {
-  if (signIn) {
+  if (signedIn) {
     res.render("account.ejs", {
+      avatar: userData.avatar,
       username: userData.username,
       email: userData.email,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
+      firstName: userData.firstname,
+      lastName: userData.lastname,
       password: userData.password,
     });
   } else {
@@ -110,8 +109,28 @@ app.post("/signIn", async (req, res) => {
 
 app.post("/acc", async (req, res) => {
   userData = [];
-  signIn = false;
+  signedIn = false;
   res.render("index.ejs");
+});
+
+app.post("/update", async (req, res) => {
+  await db.query(
+    "UPDATE webuser SET username = $1, password = $2,  email = $3, firstname = $4, lastname = $5, avatar = $6 WHERE username LIKE $1",
+    [
+      req.body.username,
+      req.body.password,
+      req.body.email,
+      req.body.firstName,
+      req.body.lastName,
+      (req.body.avatar = null),
+    ]
+  );
+  const result = await db.query(
+    "Select * FROM webuser WHERE username LIKE $1",
+    [req.body.username]
+  );
+  userData = result.rows[0];
+  res.redirect("/account");
 });
 
 app.listen(port, () => {

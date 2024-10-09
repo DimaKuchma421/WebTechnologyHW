@@ -2,19 +2,30 @@
 <main>
     <% if(username){ %>
         <form class="container" action="/acc" method="post">
+            <% if(avatar){ %>
+                <img src="<%=avatar%>" alt="avatar" srcset="" class="avatar">
+                    <% } else { %>
+                        <img src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
+                    <%}%>
             <div class="label">
+            <label for="avatar">Avatar</label>
+            <input name="avatar" type="file">
             <label for="username">Username</label>
-            <input type="text" value="<%= username %>">
-            <label for="username">Email</label>
-            <input type="text" value="<%= email %>">
-            <label for="username">FirstName</label>
-            <input type="text" value="<%= firstName %>">
-            <label for="username">LastName</label>
-            <input type="text" value="<%= lastName %>">
-            <label for="username">Password</label>
-            <input type="text" value="<%= password %>">
+            <input type="text" name="username" value="<%= username %>">
+            <label for="email">Email</label>
+            <input type="text" name="email" value="<%= email %>">
+            <label for="firstName">FirstName</label>
+            <input type="text" name="firstName" value="<%= firstName %>">
+            <label for="lastName">LastName</label>
+            <input type="text" name="lastName" value="<%= lastName %>">
+            <label for="password">Password</label>
+            <input type="password" name="password" value="<%= password %>">
             </div>
-        <button type="acc">Вийти з аккаунту</button>
+                <div class="accbtn">
+                <button type="acc">Вийти з аккаунту</button>
+                <button type="update" formmethod="post" formaction="/update">Оновити дані</button>
+               </div>
+         </form>
     </form>
     <% }%>   
 </main>
