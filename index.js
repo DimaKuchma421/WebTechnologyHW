@@ -1,12 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import http from "http";
 
 const app = express();
 const port = 3000;
 
 let signedIn = false;
 let userData;
+let friendList = [];
 
 const db = new pg.Client({
   user: "postgres",
@@ -30,6 +32,7 @@ async function signInProtocol(username, password) {
       result.rows[0].username == username &&
       result.rows[0].password == password
     ) {
+      friendListProtocol(result.rows[0].iduser);
       userData = result.rows[0];
       signedIn = true;
     }
@@ -38,17 +41,41 @@ async function signInProtocol(username, password) {
     signedIn = false;
   }
 }
+async function friendListProtocol(iduser) {
+  try {
+    const result = await db.query(
+      "Select idfriend FROM friend WHERE iduser = $1",
+      [iduser]
+    );
+    if (result.rows[0] != null) {
+      for(let i = 0; i < 2; i++)
+      {
+        const friendResult = await db.query(
+          "Select * FROM webuser WHERE iduser = $1",
+          [result.rows[i].idfriend]
+        );
+        friendList[i] = friendResult.rows[0];
+      }
+    } else {
+      console.log("Don`t have friends");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  res.render("index.ejs", { signedIn: signedIn });
 });
 
 app.get("/ribbon", (req, res) => {
-  res.render("ribbon.ejs");
+  res.render("ribbon.ejs", { signedIn: signedIn });
 });
 
 app.get("/friends", (req, res) => {
-  res.render("friends.ejs");
+  res.render("friends.ejs", {
+    friendList: friendList,
+    signedIn: signedIn });
 });
 
 app.get("/account", (req, res) => {
@@ -60,18 +87,19 @@ app.get("/account", (req, res) => {
       firstName: userData.firstname,
       lastName: userData.lastname,
       password: userData.password,
+      signedIn: signedIn,
     });
   } else {
-    res.redirect("/");
+    res.redirect("/signIn");
   }
 });
 
 app.get("/reg", (req, res) => {
-  res.render("registration.ejs");
+  res.render("registration.ejs", { signedIn: signedIn });
 });
 
 app.get("/signIn", (req, res) => {
-  res.render("signIn.ejs");
+  res.render("signIn.ejs", { signedIn: signedIn });
 });
 
 app.post("/reg", async (req, res) => {
@@ -107,10 +135,10 @@ app.post("/signIn", async (req, res) => {
   res.redirect("/account");
 });
 
-app.post("/acc", async (req, res) => {
+app.get("/signOut", async (req, res) => {
   userData = [];
   signedIn = false;
-  res.render("index.ejs");
+  res.redirect("/");
 });
 
 app.post("/update", async (req, res) => {
@@ -122,7 +150,7 @@ app.post("/update", async (req, res) => {
       req.body.email,
       req.body.firstName,
       req.body.lastName,
-      (req.body.avatar = null),
+      null,
     ]
   );
   const result = await db.query(

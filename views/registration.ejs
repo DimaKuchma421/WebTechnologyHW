@@ -1,15 +1,20 @@
 <%-include('partials/header.ejs')%>
 <main>
   <form class="container" action="/reg" method="post">
+    <h1>РЕГІСТРАЦІЯ</h1>
     <div class="label">
-        <label for="username">Username</label>
+        <label >Username</label>
         <input type="text" name="username">
-        <label for="email">Email</label>
+        <label >Email</label>
         <input type="text" name="email">
-        <label for="password">Password</label>
-        <input type="password" name="password">
+        <label >Password</label>
+        <div class="accbtn">
+          <input class="password" type="password" name="password">
+          <input type="checkbox" onclick="showPassword()" style="width: 30px;">
+        </div>
     </div>
     <button type="reg">Регістрація</button>
+    <p><a href="/signIn">Вже є аккаунт, зайдіть у нього</a></p>
   </form>
 </main>
 <%-include('partials/footer.ejs')%>

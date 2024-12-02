@@ -1,13 +1,18 @@
 <%-include('partials/header.ejs')%>
 <main>
     <form class="container" action="/signIn" method="post">
+        <h1>АВТОРИЗАЦІЯ</h1>
         <div class="label">
-            <label for="username">Username</label>
+            <label >Username</label>
             <input type="text" name="username">
-            <label for="password">Password</label>
-            <input type="password" name="password">
+            <label >Password</label>
+            <div class="accbtn">
+                <input class="password" type="password" name="password">
+                <input type="checkbox" onclick="showPassword()" style="width: 30px;">
+            </div>
         </div>
         <button type="signIn">Вхід</button>
+        <p><a href="/reg">Немає аккаунту, створіть його</a></p>
       </form>
 </main>
 <%-include('partials/footer.ejs')%>

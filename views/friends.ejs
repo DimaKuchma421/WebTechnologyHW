@@ -1,6 +1,28 @@
 <%-include('partials/header.ejs')%>
-<main>
-    <h1>FRIENDS</h1>
+<main class="friendlist">
+    <div class="friends">
+        <h1>YOUR FRIENDS:</h1>
+        <div class="friendshave">
+            <%if(friendList){ %>
+            <% for (let i = 0; i < friendList.length; i++) { %>
+                <div class="friend">
+                    <img src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
+                    <h3><%= friendList[i].username %></h3>
+                </div>
+            <% } %>
+            <% }else {%>
+                <h3>Друзів немає</h3>
+                <%} %>
+        </div>
+    </div>
+    <div class="findfriend">
+        <form action="/find">
+        <label name="friend">Find friend:</label>
+        <p>
+            <input type="text" name="username">
+        </p>
+    </form>
+    </div>
 </main>
 <%-include('partials/footer.ejs')%>
 </body>
