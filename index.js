@@ -1,10 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
-import http from "http";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 const port = 3000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let signedIn = false;
 let userData;
@@ -19,8 +23,30 @@ const db = new pg.Client({
 });
 db.connect();
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 5 },
+});
 
 async function signInProtocol(username, password) {
   try {
@@ -43,21 +69,26 @@ async function signInProtocol(username, password) {
 }
 async function friendListProtocol(iduser) {
   try {
+    friendList = [];
     const result = await db.query(
       "Select idfriend FROM friend WHERE iduser = $1",
       [iduser]
     );
     if (result.rows[0] != null) {
-      for(let i = 0; i < 2; i++)
-      {
+      for (let i = 0; i < result.rows.length; i++) {
         const friendResult = await db.query(
           "Select * FROM webuser WHERE iduser = $1",
           [result.rows[i].idfriend]
         );
         friendList[i] = friendResult.rows[0];
       }
+      for (let i = 0; i < friendList.length; i++)
+        {
+          console.log(friendList[i].username);
+        }
+        console.log(friendList.length);
     } else {
-      console.log("Don`t have friends");
+      console.log("Don`t have friends")
     }
   } catch (err) {
     console.log(err);
@@ -65,17 +96,25 @@ async function friendListProtocol(iduser) {
 }
 
 app.get("/", (req, res) => {
-  res.render("index.ejs", { signedIn: signedIn });
+  res.render("index.ejs", {
+    curpage: 1,
+    signedIn: signedIn,
+  });
 });
 
 app.get("/ribbon", (req, res) => {
-  res.render("ribbon.ejs", { signedIn: signedIn });
+  res.render("ribbon.ejs", {
+    curpage: 2,
+    signedIn: signedIn,
+  });
 });
 
 app.get("/friends", (req, res) => {
   res.render("friends.ejs", {
     friendList: friendList,
-    signedIn: signedIn });
+    curpage: 3,
+    signedIn: signedIn,
+  });
 });
 
 app.get("/account", (req, res) => {
@@ -87,6 +126,7 @@ app.get("/account", (req, res) => {
       firstName: userData.firstname,
       lastName: userData.lastname,
       password: userData.password,
+      curpage: 4,
       signedIn: signedIn,
     });
   } else {
@@ -95,11 +135,17 @@ app.get("/account", (req, res) => {
 });
 
 app.get("/reg", (req, res) => {
-  res.render("registration.ejs", { signedIn: signedIn });
+  res.render("registration.ejs", { curpage: 6, signedIn: signedIn });
 });
 
 app.get("/signIn", (req, res) => {
-  res.render("signIn.ejs", { signedIn: signedIn });
+  res.render("signIn.ejs", { curpage: 5, signedIn: signedIn });
+});
+
+app.get("/signOut", async (req, res) => {
+  userData = [];
+  signedIn = false;
+  res.redirect("/");
 });
 
 app.post("/reg", async (req, res) => {
@@ -135,13 +181,7 @@ app.post("/signIn", async (req, res) => {
   res.redirect("/account");
 });
 
-app.get("/signOut", async (req, res) => {
-  userData = [];
-  signedIn = false;
-  res.redirect("/");
-});
-
-app.post("/update", async (req, res) => {
+app.post("/update", upload.single("avatar"), async (req, res) => {
   await db.query(
     "UPDATE webuser SET username = $1, password = $2,  email = $3, firstname = $4, lastname = $5, avatar = $6 WHERE username LIKE $1",
     [
@@ -150,7 +190,7 @@ app.post("/update", async (req, res) => {
       req.body.email,
       req.body.firstName,
       req.body.lastName,
-      null,
+      req.file.filename,
     ]
   );
   const result = await db.query(

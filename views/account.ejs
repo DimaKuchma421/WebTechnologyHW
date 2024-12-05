@@ -1,15 +1,15 @@
 <%-include('partials/header.ejs')%>
 <main>
     <% if(username){ %>
-        <form class="container" action="/acc" method="post">
+        <form class="container" action="/acc" method="post" enctype="multipart/form-data">
             <%if(avatar){ %>
-                <img src="/public/images/<%=avatar%>" alt="avatar" srcset="" class="avatar">
+                <img src="/uploads/<%= avatar %>" alt="avatar" srcset="" class="avatar">
                     <% } else { %>
                         <img src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
                     <%}%>
             <div class="label">
             <label >Avatar</label>
-            <input name="avatar" type="file" style="color: white">
+            <input type="file" name="avatar" id="avatar" accept="image/*" style="color: white">
             <label >Username</label>
             <input type="text" name="username" value="<%= username %>">
             <label >Email</label>

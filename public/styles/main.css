@@ -35,6 +35,13 @@ nav button:hover {
   box-shadow: inset 0px 0px 0px 3px white;
   transition: box-shadow 0.2s;
 }
+
+.active{
+  padding-top: 5px;
+  text-shadow: none;
+  background-color: rgb(105,105,105);
+  box-shadow: inset 0px 0px 0px 3px white;
+}
 main {
   display: flex;
   justify-content: center;

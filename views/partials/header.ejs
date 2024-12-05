@@ -11,6 +11,71 @@
     <header>
       <nav id="#nav1">
         <div class="logo"><h1>RIBBONJS</h1></div>
+        <%if(curpage == 1){ %>
+        <button class="1 active" onclick="location.href='/'" type="button">
+          Головна
+        </button>
+        <button class="2" onclick="location.href='/ribbon'" type="button">
+          Ваша стрічка
+        </button>
+        <button class="3" onclick="location.href='/friends'" type="button">
+          Друзі
+        </button>
+        <button class="4" onclick="location.href='/account'" type="button">
+          Аккаунт
+        </button>
+        <% }else if(curpage == 2){%>
+        <button class="1" onclick="location.href='/'" type="button">
+          Головна
+        </button>
+        <button
+          class="2 active"
+          onclick="location.href='/ribbon'"
+          type="button"
+        >
+          Ваша стрічка
+        </button>
+        <button class="3" onclick="location.href='/friends'" type="button">
+          Друзі
+        </button>
+        <button class="4" onclick="location.href='/account'" type="button">
+          Аккаунт
+        </button>
+        <% }else if(curpage == 3){%>
+        <button class="1" onclick="location.href='/'" type="button">
+          Головна
+        </button>
+        <button class="2" onclick="location.href='/ribbon'" type="button">
+          Ваша стрічка
+        </button>
+        <button
+          class="3 active"
+          onclick="location.href='/friends'"
+          type="button"
+        >
+          Друзі
+        </button>
+        <button class="4" onclick="location.href='/account'" type="button">
+          Аккаунт
+        </button>
+        <% }else if(curpage == 4){%>
+        <button class="1" onclick="location.href='/'" type="button">
+          Головна
+        </button>
+        <button class="2" onclick="location.href='/ribbon'" type="button">
+          Ваша стрічка
+        </button>
+        <button class="3" onclick="location.href='/friends'" type="button">
+          Друзі
+        </button>
+        <button
+          class="4 active"
+          onclick="location.href='/account'"
+          type="button"
+        >
+          Аккаунт
+        </button>
+        <% }else {%>
         <button class="1" onclick="location.href='/'" type="button">
           Головна
         </button>
@@ -23,25 +88,53 @@
         <button class="4" onclick="location.href='/account'" type="button">
           Аккаунт
         </button>
-        <% if(!signedIn) { %>
+        <%}%> <% if(!signedIn) { %> <% if(curpage == 5) { %>
         <div class="aftorization">
           <button
-            class="1"
+            class="5 active"
             onclick="location.href='/signIn'"
             type="button"
             display=""
           >
             Увійти
           </button>
-          <button class="2" onclick="location.href='/reg'" type="button">
+          <button class="6" onclick="location.href='/reg'" type="button">
             Зарееструватися
           </button>
         </div>
-        <% } else {%>
-          <button type="button" onclick="location.href='/signOut'">
-            Вийти з аккаунту
+        <% }else if(curpage == 6){%>
+        <div class="aftorization">
+          <button
+            class="5"
+            onclick="location.href='/signIn'"
+            type="button"
+            display=""
+          >
+            Увійти
           </button>
-        <% }%>
+          <button class="6 active" onclick="location.href='/reg'" type="button">
+            Зарееструватися
+          </button>
+        </div>
+        <% }else {%>
+          <div class="aftorization">
+            <button
+              class="5"
+              onclick="location.href='/signIn'"
+              type="button"
+              display=""
+            >
+              Увійти
+            </button>
+            <button class="6" onclick="location.href='/reg'" type="button">
+              Зарееструватися
+            </button>
+          </div>
+        <%}%> <%} else {%>
+        <button type="button" onclick="location.href='/signOut'">
+          Вийти з аккаунту
+        </button>
+        <% } %>
       </nav>
     </header>
   </body>
