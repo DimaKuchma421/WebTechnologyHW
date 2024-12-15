@@ -13,19 +13,29 @@
                     <%} %>
                     <h3><%= friendList[i].username %></h3>
                 </div>
-                <% } %>
+            <% } %>
         </div>
         <% }else {%>
             <h2 style="text-align: center;">Друзів немає</h2>
-            <%} %>
+        <%} %>
     </div>
     <div class="findfriend">
-        <form action="/find">
+        <form class="container" action="/find" method="post">
         <label name="friend">Знайти друга:</label>
-        <p>
             <input type="text" name="username">
-        </p>
-    </form>
+            <button type="find">Пошук</button>
+            <%if(findFriend != null){%>
+                <div class="friend">
+                    <%if(findFriend.avatar){ %>
+                        <img src="/uploads/<%= findFriend.avatar %>" alt="avatar" srcset="" class="avatar">
+                        <% }else {%>
+                    <img src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
+                    <%} %>
+                    <h3><%= findFriend.username %></h3>
+                </div>
+                <button id="#addbtn" type="addFriend" formmethod="post" formaction="/addFriend">Додати у друзі</button>
+            <% }%>
+        </form>
     </div>
 </main>
 <%-include('partials/footer.ejs')%>

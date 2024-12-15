@@ -13,6 +13,10 @@ const __dirname = path.dirname(__filename);
 let signedIn = false;
 let userData;
 let friendList = [];
+let userid;
+let findFriend;
+let userposts = [];
+let allUsersPosts = [];
 
 const db = new pg.Client({
   user: "postgres",
@@ -58,7 +62,7 @@ async function signInProtocol(username, password) {
       result.rows[0].username == username &&
       result.rows[0].password == password
     ) {
-      friendListProtocol(result.rows[0].iduser);
+      userid = result.rows[0].iduser;
       userData = result.rows[0];
       signedIn = true;
     }
@@ -82,39 +86,105 @@ async function friendListProtocol(iduser) {
         );
         friendList[i] = friendResult.rows[0];
       }
-      for (let i = 0; i < friendList.length; i++)
-        {
-          console.log(friendList[i].username);
-        }
-        console.log(friendList.length);
     } else {
-      console.log("Don`t have friends")
+      friendList[0] = null;
     }
   } catch (err) {
     console.log(err);
   }
 }
 
-app.get("/", (req, res) => {
+async function findUserPosts(iduser) {
+  try {
+    userposts = [];
+    const result = await db.query(
+      "Select idpost, posttext, post.iduser, title, date, username, avatar FROM post JOIN webuser ON post.iduser= webuser.iduser WHERE post.iduser = $1",
+      [iduser]
+    );
+    if (result.rows[0] != null) {
+      userposts = result.rows;
+    } else {
+      userposts[0] = null;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function randomUserPosts() {
+  try {
+    allUsersPosts = [];
+    const result = await db.query(
+      "Select idpost, posttext, post.iduser, title, date, username, avatar FROM post JOIN webuser ON post.iduser= webuser.iduser"
+    );
+    if (result.rows[0] != null) {
+      allUsersPosts = result.rows;
+      for (let i = allUsersPosts.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        [allUsersPosts[i], allUsersPosts[randomIndex]] = [
+          allUsersPosts[randomIndex],
+          allUsersPosts[i],
+        ];
+      }
+    } else {
+      allUsersPosts[0] = null;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+app.get("/", async (req, res) => {
+  await randomUserPosts(null);
   res.render("index.ejs", {
     curpage: 1,
     signedIn: signedIn,
   });
 });
+app.get("/randomPosts", (req, res) => {
+  res.render("randomPosts.ejs", { allUsersPosts: allUsersPosts });
+});
+function DateTime() {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate() + 1).padStart(2, "0");
 
-app.get("/ribbon", (req, res) => {
-  res.render("ribbon.ejs", {
-    curpage: 2,
-    signedIn: signedIn,
-  });
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+}
+
+app.get("/ribbon", async (req, res) => {
+  if (signedIn) {
+    await findUserPosts(userid);
+    res.render("ribbon.ejs", {
+      curpage: 2,
+      signedIn: signedIn,
+      userposts: userposts,
+    });
+  } else {
+    res.redirect("/signIn");
+  }
+});
+app.get("/ribbonFrame", (req, res) => {
+  res.render("ribbonFrame.ejs", { userposts: userposts });
+});
+app.get("/createPost", (req, res) => {
+  res.render("createPost.ejs", { curpage: 2, signedIn: signedIn });
 });
 
-app.get("/friends", (req, res) => {
-  res.render("friends.ejs", {
-    friendList: friendList,
-    curpage: 3,
-    signedIn: signedIn,
-  });
+app.get("/friends", async (req, res) => {
+  await friendListProtocol(userid);
+  if (signedIn) {
+    res.render("friends.ejs", {
+      friendList: friendList,
+      curpage: 3,
+      findFriend: findFriend,
+      signedIn: signedIn,
+    });
+  } else {
+    res.redirect("/signIn");
+  }
 });
 
 app.get("/account", (req, res) => {
@@ -199,6 +269,56 @@ app.post("/update", upload.single("avatar"), async (req, res) => {
   );
   userData = result.rows[0];
   res.redirect("/account");
+});
+
+app.post("/find", async (req, res) => {
+  const result = await db.query(
+    "Select * FROM webuser WHERE username LIKE $1",
+    [req.body.username]
+  );
+  findFriend = result.rows[0];
+  res.redirect("/friends");
+});
+
+app.post("/addFriend", async (req, res) => {
+  try {
+    await db.query("INSERT INTO friend (idfriend, iduser) VALUES ($1, $2)", [
+      findFriend.iduser,
+      userData.iduser,
+    ]);
+    await db.query("INSERT INTO friend (idfriend, iduser) VALUES ($1, $2)", [
+      userData.iduser,
+      findFriend.iduser,
+    ]);
+    res.redirect("/friends");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
+  }
+});
+
+app.post("/addPost", async (req, res) => {
+  try {
+    await db.query(
+      "INSERT INTO post (posttext, iduser, date, title) VALUES ($1, $2, $3, $4)",
+      [req.body.content, userData.iduser, DateTime(), req.body.title]
+    );
+    res.redirect("/ribbon");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
+  }
+});
+
+app.get("/deletePost/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    await db.query("DELETE FROM post WHERE idpost = $1", [postId]);
+    res.json({ success: true });
+  } catch (error) {
+    console.log(err);
+    res.json({ success: false });
+  }
 });
 
 app.listen(port, () => {

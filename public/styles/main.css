@@ -9,6 +9,10 @@ input {
   color: black;
   font-size: 24px;
 }
+textarea {
+  color: black;
+  font-size: 24px;
+}
 nav {
   margin: 0px;
   width: 100%;
@@ -61,7 +65,6 @@ footer {
   justify-content: center;
   border-left: 1px white solid;
 }
-
 .aftorization button {
   background-color:rgb(0, 0, 0);
   border: 2px solid white;
@@ -167,4 +170,114 @@ a{
 }
 a:hover{
   text-decoration: underline;
+}
+
+.addpost button {
+  background-color:rgb(0, 0, 0);
+  border: 2px solid white;
+  border-radius: 30px;
+  height: 40px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.addpost button:hover {
+  background-color: white;
+  color: black;
+  text-shadow: none;
+  transition: 0.2s;
+}
+
+.posts {
+  width: 85%;
+  height: 100%;
+  border: solid rgb(105,105,105) 2px;
+}
+
+.addpost{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  height: 100%;
+  border: solid rgb(105,105,105) 2px;
+}
+
+.ribbonBody{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+}
+
+.post{
+  display: flex;
+  flex-direction: column;
+  width: 99%;
+  border: solid rgb(255, 255, 255) 2px;
+  padding: 10px;
+}
+
+.post button {
+  background-color:rgb(0, 0, 0);
+  border: 2px solid white;
+  border-radius: 30px;
+  height: 40px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 20px auto;
+}
+.post button:hover {
+  background-color: white;
+  color: black;
+  text-shadow: none;
+  transition: 0.2s;
+}
+
+.post .text{
+width: 500px;
+margin: 5px;
+font-size: 24px;
+}
+.post .user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.createPost{
+  display: flex;
+  flex-direction: column;
+}
+.createPost h1{
+  font-size: 48px;
+}
+.createPost button {
+  background-color:rgb(0, 0, 0);
+  border: 2px solid white;
+  border-radius: 30px;
+  height: 40px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 20px auto;
+}
+.createPost button:hover {
+  background-color: white;
+  color: black;
+  text-shadow: none;
+  transition: 0.2s;
+}
+
+.user .avatar {
+  width: 70px;
+  height: 70px;
 }

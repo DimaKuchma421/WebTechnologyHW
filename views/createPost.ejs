@@ -1,0 +1,16 @@
+<%-include('partials/header.ejs')%>
+<main class="createPost">
+    <h1>Створення нового посту</h1>
+    <form action="/submit-post" method="POST">
+        <label for="title">Заголовок:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="content">Текст посту:</label><br>
+        <textarea id="content" name="content" rows="10" cols="60" required></textarea><br><br>
+
+        <button type="submit" formmethod="post" formaction="/addPost">Опублікувати</button>
+    </form>
+</main>
+<%-include('partials/footer.ejs')%>
+</body>
+</html>
