@@ -7,9 +7,9 @@
             <% for (let i = 0; i < friendList.length; i++) { %>
                 <div class="friend">
                     <%if(friendList[i].avatar){ %>
-                        <img src="/uploads/<%= friendList[i].avatar %>" alt="avatar" srcset="" class="avatar">
+                        <img onclick="location.href='/getUserPosts/<%= userposts[i].iduser %>'" src="/uploads/<%= friendList[i].avatar %>" alt="avatar" srcset="" class="avatar">
                         <% }else {%>
-                    <img src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
+                    <img onclick="location.href='/getUserPosts/<%= userposts[i].iduser %>'" src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
                     <%} %>
                     <h3><%= friendList[i].username %></h3>
                 </div>
@@ -27,14 +27,16 @@
             <%if(findFriend != null){%>
                 <div class="friend">
                     <%if(findFriend.avatar){ %>
-                        <img src="/uploads/<%= findFriend.avatar %>" alt="avatar" srcset="" class="avatar">
+                        <img onclick="location.href='/getUserPosts/<%= userposts[i].iduser %>'" src="/uploads/<%= findFriend.avatar %>" alt="avatar" srcset="" class="avatar">
                         <% }else {%>
-                    <img src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
+                    <img onclick="location.href='/getUserPosts/<%= userposts[i].iduser %>'" src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
                     <%} %>
                     <h3><%= findFriend.username %></h3>
                 </div>
                 <button id="#addbtn" type="addFriend" formmethod="post" formaction="/addFriend">Додати у друзі</button>
-            <% }%>
+            <% } else {%>
+                <h2>Користувача не знайдено</h2>
+            <% } %>
         </form>
     </div>
 </main>

@@ -153,7 +153,6 @@ function DateTime() {
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
 }
-
 app.get("/ribbon", async (req, res) => {
   if (signedIn) {
     await findUserPosts(userid);
@@ -169,10 +168,19 @@ app.get("/ribbon", async (req, res) => {
 app.get("/ribbonFrame", (req, res) => {
   res.render("ribbonFrame.ejs", { userposts: userposts });
 });
+app.get("/deletePost/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    await db.query("DELETE FROM post WHERE idpost = $1", [postId]);
+    res.json({ success: true });
+  } catch (error) {
+    console.log(err);
+    res.json({ success: false });
+  }
+});
 app.get("/createPost", (req, res) => {
   res.render("createPost.ejs", { curpage: 2, signedIn: signedIn });
 });
-
 app.get("/friends", async (req, res) => {
   await friendListProtocol(userid);
   if (signedIn) {
@@ -186,7 +194,12 @@ app.get("/friends", async (req, res) => {
     res.redirect("/signIn");
   }
 });
-
+app.get("/getUserPosts/:id", async (req, res) => {
+  await findUserPosts(req.params.id);
+  res.render("userPostsFrame.ejs", {
+    userposts: userposts,
+  });
+});
 app.get("/account", (req, res) => {
   if (signedIn) {
     res.render("account.ejs", {
@@ -203,15 +216,12 @@ app.get("/account", (req, res) => {
     res.redirect("/signIn");
   }
 });
-
 app.get("/reg", (req, res) => {
   res.render("registration.ejs", { curpage: 6, signedIn: signedIn });
 });
-
 app.get("/signIn", (req, res) => {
   res.render("signIn.ejs", { curpage: 5, signedIn: signedIn });
 });
-
 app.get("/signOut", async (req, res) => {
   userData = [];
   signedIn = false;
@@ -307,17 +317,6 @@ app.post("/addPost", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.redirect("/");
-  }
-});
-
-app.get("/deletePost/:id", async (req, res) => {
-  try {
-    const postId = req.params.id;
-    await db.query("DELETE FROM post WHERE idpost = $1", [postId]);
-    res.json({ success: true });
-  } catch (error) {
-    console.log(err);
-    res.json({ success: false });
   }
 });
 

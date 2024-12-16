@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <title>RJS</title>
+  </head>
+  <body class = "ribbonBody">
+    <h1><%=userposts[0].username%></h1>
+      <% for (let i = 0; i < userposts.length; i++) { %>
+      <div class="post">
+        <div class="user">
+          <%if(userposts[i].avatar){ %>
+            <img  src="/uploads/<%= userposts[i].avatar %>" alt="avatar" srcset="" class="avatar">
+            <% }else {%>
+              <img src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
+              <%} %>
+            <%= userposts[i].username %>
+        </div>
+        <div class="text">
+          <h1><%= userposts[i].title %></h1>
+          <%= userposts[i].posttext %>
+        </div class="time">
+          <%= new Date(userposts[i].date).toISOString().split('T')[0] %>
+        </div>
+     </div>
+    <%}%>
+  </body>
+</html>

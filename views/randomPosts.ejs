@@ -11,9 +11,9 @@
       <div class="post">
         <div class="user">
           <%if(allUsersPosts[i].avatar){ %>
-            <img src="/uploads/<%= allUsersPosts[i].avatar %>" alt="avatar" srcset="" class="avatar">
+            <img onclick="location.href='/getUserPosts/<%= allUsersPosts[i].iduser %>'" src="/uploads/<%= allUsersPosts[i].avatar %>" alt="avatar" srcset="" class="avatar">
             <% }else {%>
-              <img src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
+              <img onclick="location.href='/getUserPosts/<%= allUsersPosts[i].iduser %>'" src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
               <%} %><%= allUsersPosts[i].username %>
         </div>
         <div class="text">
