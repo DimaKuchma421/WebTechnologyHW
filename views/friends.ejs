@@ -7,9 +7,9 @@
             <% for (let i = 0; i < friendList.length; i++) { %>
                 <div class="friend">
                     <%if(friendList[i].avatar){ %>
-                        <img onclick="location.href='/getUserPosts/<%= userposts[i].iduser %>'" src="/uploads/<%= friendList[i].avatar %>" alt="avatar" srcset="" class="avatar">
+                        <img onclick="location.href='/getUserPosts/<%=friendList[i].iduser %>'" src="/uploads/<%= friendList[i].avatar %>" alt="avatar" srcset="" class="avatar">
                         <% }else {%>
-                    <img onclick="location.href='/getUserPosts/<%= userposts[i].iduser %>'" src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
+                    <img onclick="location.href='/getUserPosts/<%=friendList[i].iduser %>'" src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
                     <%} %>
                     <h3><%= friendList[i].username %></h3>
                 </div>
@@ -27,9 +27,9 @@
             <%if(findFriend != null){%>
                 <div class="friend">
                     <%if(findFriend.avatar){ %>
-                        <img onclick="location.href='/getUserPosts/<%= userposts[i].iduser %>'" src="/uploads/<%= findFriend.avatar %>" alt="avatar" srcset="" class="avatar">
+                        <img onclick="location.href='/getUserPosts/<%=findFriend.iduser %>'" src="/uploads/<%= findFriend.avatar %>" alt="avatar" srcset="" class="avatar">
                         <% }else {%>
-                    <img onclick="location.href='/getUserPosts/<%= userposts[i].iduser %>'" src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
+                    <img onclick="location.href='/getUserPosts/<%=findFriend.iduser %>'" src="https://www.meme-arsenal.com/memes/4cdee02fbf6649b4e2c7b597f9d4d143.jpg" alt="avatar" srcset="" class="avatar">
                     <%} %>
                     <h3><%= findFriend.username %></h3>
                 </div>

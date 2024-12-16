@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/styles/main.css" />
     <title>RJS</title>
   </head>
+  <a onclick="Back()">Назад</a>
   <body class = "ribbonBody">
     <h1><%=userposts[0].username%></h1>
       <% for (let i = 0; i < userposts.length; i++) { %>
@@ -26,5 +27,10 @@
         </div>
      </div>
     <%}%>
+    <script>
+      function Back() {
+        window.top.location.href = "/friends";
+     }
+   </script>
   </body>
 </html>
